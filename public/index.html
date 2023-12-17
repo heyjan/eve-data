@@ -53,11 +53,11 @@
 
 
 <div id="topEnemyCorporations">
-    <h4>Top 10 Enemy Corporations</h4>
+    <h6>Top 10 Enemy Corporations</h6>
     <ul id="enemyCorporationsList"></ul>
 </div>
 
-<h4>Activity Heat Map</h4>
+<h6>Activity Heat Map</h6>
 <div id="heatmap"></div>
 
 <script>
@@ -77,7 +77,7 @@
             .then(response => response.json())
             .then(data => {
                 const shipTypeCounts = document.getElementById('shipTypeCounts');
-                shipTypeCounts.innerHTML = '<h4>Ship Kill Counts</h4>';
+                shipTypeCounts.innerHTML = '<h6>Ship Kill Counts</h6>';
 
                 data.forEach(ship => {
                     const shipDiv = document.createElement('div');
