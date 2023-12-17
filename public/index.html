@@ -24,11 +24,15 @@
             overflow: auto;
         }
 
+        #container {
+            background-color: rgba(21, 25, 37, 0.8); /* Adjust the color values as needed */
+            margin: 10px;
+            min-height: fit-content;
+        }
+
         /* Set the background color for the specified divs with 50% opacity */
         #box1, #topEnemyCorporations{
-            background-color: rgba(21, 25, 37, 0.8); /* Adjust the color values as needed */
-            margin: 20px;
-            padding: 20px;
+            padding: 10px;
             position: relative;
         }
                 #heatmap {
@@ -47,6 +51,8 @@
 <body>
 <div id="navbarContainer" style="overflow: hidden;position: fixed;top: 0;width: 100%;z-index: 20"></div>
 
+
+<div id="container">
 <div id="box1">
 <div id="shipTypeCounts"></div>
 <div id="totalKills"></div>
@@ -60,7 +66,7 @@
 
 <h6>Activity Heat Map</h6>
 <div id="heatmap"></div>
-
+</div>
 <script>
     // Fetch navbar HTML using JavaScript (AJAX)
     fetch('/navbar')
