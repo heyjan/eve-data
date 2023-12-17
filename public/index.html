@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Killboard Statistics</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        /* CSS styles for the heat map */
+        /* Add your styles here */
+    </style>
+</head>
+<body>
+<h1>Killboard Statistics</h1>
+
+<div id="totalKills"></div>
+
+<div id="shipTypeCounts"></div>
+
+<div id="topEnemyCorporations">
+    <h2>Top 10 Enemy Corporations</h2>
+    <ul id="enemyCorporationsList"></ul>
+</div>
+
+<h1>Activity Heat Map</h1>
+<div id="heatmap"></div>
+
+<script>
+    // Function to fetch and display total number of kills
+    function getTotalKills() {
+        fetch('http://localhost:3000/total-kills')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('totalKills').innerText = `Total Number of Kills: ${data.totalKills}`;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Function to fetch and display ship type counts
+    function getShipTypeCounts() {
+        fetch('http://localhost:3000/ship-type-counts')
+            .then(response => response.json())
+            .then(data => {
+                const shipTypeCounts = document.getElementById('shipTypeCounts');
+                shipTypeCounts.innerHTML = '<h2>Ship Kill Counts</h2>';
+
+                data.forEach(ship => {
+                    const shipDiv = document.createElement('div');
+                    shipDiv.innerText = `${ship.ship_type}: ${ship.count}`;
+                    shipTypeCounts.appendChild(shipDiv);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Function to fetch and display top 10 enemy corporations
+    function getTopEnemyCorporations() {
+        fetch('http://localhost:3000/top-enemy-corporations')
+            .then(response => response.json())
+            .then(data => {
+                const enemyCorporationsList = document.getElementById('enemyCorporationsList');
+                data.forEach(enemy => {
+                    const listItem = document.createElement('li');
+                    listItem.innerText = `${enemy.enemy_corporation}: ${enemy.killCount}`;
+                    enemyCorporationsList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Function to fetch activity by days data
+    function getActivityByDays() {
+        fetch('http://localhost:3000/activity-by-days')
+            .then(response => response.json())
+            .then(data => {
+                // Set the retrieved data to the 'data' variable for the heat map
+                renderHeatMap(data);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Function to render the heat map with sorted days
+    function renderHeatMap(data) {
+        const width = 800;
+        const height = 400;
+        const padding = 30; // Padding for labels
+        const daysPerRow = 7; // Number of days per row
+
+        // Ensure data contains all seven days even if some have no data
+        const newData = prepareData(data);
+
+        const svg = d3.select("#heatmap")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        const color = d3.scaleSequential(d3.interpolateYlOrRd)
+            .domain([0, d3.max(newData, d => d.activityCount)]);
+
+        // Calculate rows and columns for the heatmap grid
+        const rows = Math.ceil(newData.length / daysPerRow);
+
+        const xScale = d3.scaleBand()
+            .domain(newData.map((d, i) => i % daysPerRow)) // X-axis domain for days within a row
+            .range([padding, width - padding]);
+
+        const yScale = d3.scaleBand()
+            .domain(d3.range(rows)) // Y-axis domain for rows
+            .range([padding, height - padding]);
+
+        svg.selectAll()
+            .data(newData)
+            .enter()
+            .append("rect")
+            .attr("x", (d, i) => xScale(i % daysPerRow))
+            .attr("y", (d, i) => yScale(Math.floor(i / daysPerRow)))
+            .attr("width", xScale.bandwidth())
+            .attr("height", yScale.bandwidth())
+            .style("fill", d => color(d.activityCount));
+
+        // Adding text labels (day and kills count)
+        svg.selectAll("text")
+            .data(newData)
+            .enter()
+            .append("text")
+            .text(d => `${d.day}`)
+            .attr("x", (d, i) => xScale(i % daysPerRow) + xScale.bandwidth() / 2)
+            .attr("y", (d, i) => yScale(Math.floor(i / daysPerRow)) + yScale.bandwidth() / 2)
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "middle")
+            .attr("fill", "black")
+            .style("font-size", "10px"); // Adjust font size for readability
+
+        svg.selectAll(".kills")
+            .data(newData)
+            .enter()
+            .append("text")
+            .attr("class", "kills")
+            .text(d => `Kills: ${d.activityCount}`)
+            .attr("x", (d, i) => xScale(i % daysPerRow) + xScale.bandwidth() / 2)
+            .attr("y", (d, i) => yScale(Math.floor(i / daysPerRow)) + yScale.bandwidth() - 5) // Adjust position for kills count
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "middle")
+            .attr("fill", "black")
+            .style("font-size", "10px"); // Adjust font size for readability
+    }
+
+    // Function to prepare data with missing days
+    function prepareData(data) {
+        // Sort the data by date
+        data.sort((a, b) => {
+            const dateA = new Date(a.day.split('.').reverse().join('-'));
+            const dateB = new Date(b.day.split('.').reverse().join('-'));
+            return dateA - dateB;
+        });
+
+        // Function to prepare data with missing days and filter out dates before 02.10.2023
+            const startDate = new Date(2023, 9, 2); // Date starting from 02.10.2023
+            const currentDate = new Date(); // Get the current date
+
+            const daysInRange = [];
+            for (let date = startDate; date <= currentDate; date.setDate(date.getDate() + 1)) {
+                const formattedDate = formatDate(date);
+                daysInRange.push(formattedDate);
+            }
+
+            return daysInRange.map(day => {
+                const existingData = data.find(d => d.day === day);
+                return existingData || { day, activityCount: 0 }; // Set activityCount to 0 for missing days
+            });
+        }
+
+    // Helper function to format date as "DD.MM.YYYY"
+    function formatDate(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}.${month}.${year}`;
+    }
+
+
+    // Call the function to fetch activity by days data and render the heat map
+    window.onload = function() {
+        getTotalKills();
+        getShipTypeCounts();
+        getTopEnemyCorporations();
+        getActivityByDays(); // Call the new function to fetch activity by days data
+    };
+
+
+
+</script>
+</body>
+</html>
