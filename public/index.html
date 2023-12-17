@@ -115,6 +115,8 @@
         // Ensure data contains all seven days even if some have no data
         const newData = prepareData(data);
 
+        const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
         const svg = d3.select("#heatmap")
             .append("svg")
             .attr("width", width)
@@ -169,6 +171,37 @@
             .attr("alignment-baseline", "middle")
             .attr("fill", "black")
             .style("font-size", "10px"); // Adjust font size for readability
+
+            // Adding labels outside the heatmap
+            svg.append("text")
+            .text("Day")
+            .attr("x", width / 2)
+            .attr("y", height + padding * 2)
+            .attr("text-anchor", "middle")
+            .attr("fill", "black")
+            .style("font-size", "14px");
+    
+            svg.append("text")
+            .text("Kills Count")
+            .attr("x", -padding * 2)
+            .attr("y", height / 2)
+            .attr("transform", "rotate(-90)")
+            .attr("text-anchor", "middle")
+            .attr("fill", "black")
+            .style("font-size", "14px");
+    
+            // Adding day labels above each column
+            svg.selectAll(".dayLabel")
+            .data(d3.range(7))
+            .enter()
+            .append("text")
+            .attr("class", "dayLabel")
+            .text((d) => daysOfWeek[d])
+            .attr("x", (d) => xScale(d) + xScale.bandwidth() / 2)
+            .attr("y", padding)
+            .attr("text-anchor", "middle")
+            .attr("fill", "black")
+            .style("font-size", "12px");
     }
 
     // Function to prepare data with missing days
