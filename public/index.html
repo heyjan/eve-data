@@ -115,7 +115,7 @@
         // Ensure data contains all seven days even if some have no data
         const newData = prepareData(data);
 
-        const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ];
 
         const svg = d3.select("#heatmap")
             .append("svg")
@@ -182,7 +182,6 @@
             .style("font-size", "14px");
     
             svg.append("text")
-            .text("Kills Count")
             .attr("x", -padding * 2)
             .attr("y", height / 2)
             .attr("transform", "rotate(-90)")
@@ -200,7 +199,7 @@
             .attr("x", (d) => xScale(d) + xScale.bandwidth() / 2)
             .attr("y", padding)
             .attr("text-anchor", "middle")
-            .attr("fill", "black")
+            .attr("fill", "white")
             .style("font-size", "12px");
     }
 
