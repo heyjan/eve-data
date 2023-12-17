@@ -25,18 +25,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 </head>
 <body>
-<h1>Killboard Statistics</h1>
+<h4>Killboard Statistics</h4>
 
 <div id="totalKills"></div>
 
 <div id="shipTypeCounts"></div>
 
 <div id="topEnemyCorporations">
-    <h2>Top 10 Enemy Corporations</h2>
+    <h4>Top 10 Enemy Corporations</h4>
     <ul id="enemyCorporationsList"></ul>
 </div>
 
-<h1>Activity Heat Map</h1>
+<h4>Activity Heat Map</h4>
 <div id="heatmap"></div>
 
 <script>
@@ -56,7 +56,7 @@
             .then(response => response.json())
             .then(data => {
                 const shipTypeCounts = document.getElementById('shipTypeCounts');
-                shipTypeCounts.innerHTML = '<h2>Ship Kill Counts</h2>';
+                shipTypeCounts.innerHTML = '<h4>Ship Kill Counts</h4>';
 
                 data.forEach(ship => {
                     const shipDiv = document.createElement('div');
