@@ -1,7 +1,7 @@
 const express = require('express');
 const sqlite3 = require('sqlite3');
 const path = require('path');
-const navbarRouter = require('./navbar');
+const navbarRouter = require('navbar.js');
 
 const app = express();
 const dbPath = path.resolve(__dirname, 'eve_killboard.db');
