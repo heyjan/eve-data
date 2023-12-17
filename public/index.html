@@ -27,9 +27,8 @@
         #container {
             background-color: rgba(21, 25, 37, 0.99); /* Adjust the color values as needed */
             min-height: max-content;
-            width: 1170px
-            margin-right: auto;
-            margin-left: auto;
+            width: 1170px;
+            margin: 0 auto;
             padding-left: 15px;
             padding-right: 15px;
         }
@@ -65,11 +64,11 @@
 
 
 <div id="topEnemyCorporations">
-    <h6>Top 10 Deadliest Corporations</h6>
+    <h6 style="color: darkgrey">Top 10 Deadliest Corporations</h6>
     <ul id="enemyCorporationsList"></ul>
 </div>
 
-<h6>Activity Heat Map</h6>
+<h6 style="color: darkgrey">Activity Heat Map</h6>
 <div id="heatmap"></div>
 </div>
 <script>
@@ -99,7 +98,7 @@
             .then(response => response.json())
             .then(data => {
                 const shipTypeCounts = document.getElementById('shipTypeCounts');
-                shipTypeCounts.innerHTML = '<h6>Kills in J-Space stored in the Database</h6>';
+                shipTypeCounts.innerHTML = '<h6 style="color: darkgrey">Kills in J-Space stored in the Database</h6>';
 
                 data.forEach(ship => {
                     const shipDiv = document.createElement('div');
