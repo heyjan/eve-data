@@ -44,10 +44,11 @@ app.get('/top-enemy-corporations', (req, res) => {
     WHERE enemy_corporation IS NOT NULL
      AND enemy_corporation <> ''
      AND enemy_corporation <> 'Vigilant Tyrannos'
+     AND enemy_corporation <> 'U N K N O W N'
   
     GROUP BY enemy_corporation
     ORDER BY killCount DESC
-    LIMIT 10
+    LIMIT 15
   `, (err, rows) => {
         if (err) {
             res.status(500).json({ error: 'Internal Server Error' });
