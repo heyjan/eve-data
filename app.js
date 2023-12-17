@@ -1,10 +1,14 @@
 const express = require('express');
 const sqlite3 = require('sqlite3');
 const path = require('path');
+const navbarRouter = require('./navbar');
 
 const app = express();
 const dbPath = path.resolve(__dirname, 'eve_killboard.db');
 const db = new sqlite3.Database(dbPath);
+
+// Use the router for the navbar at a specific route
+app.use('/navbar', navbarRouter);
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
