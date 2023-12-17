@@ -26,7 +26,7 @@
 <script>
     // Function to fetch and display total number of kills
     function getTotalKills() {
-        fetch('http://localhost:3000/total-kills')
+        fetch('/total-kills')
             .then(response => response.json())
             .then(data => {
                 document.getElementById('totalKills').innerText = `Total Number of Kills: ${data.totalKills}`;
@@ -36,7 +36,7 @@
 
     // Function to fetch and display ship type counts
     function getShipTypeCounts() {
-        fetch('http://localhost:3000/ship-type-counts')
+        fetch('/ship-type-counts')
             .then(response => response.json())
             .then(data => {
                 const shipTypeCounts = document.getElementById('shipTypeCounts');
@@ -53,7 +53,7 @@
 
     // Function to fetch and display top 10 enemy corporations
     function getTopEnemyCorporations() {
-        fetch('http://localhost:3000/top-enemy-corporations')
+        fetch('/top-enemy-corporations')
             .then(response => response.json())
             .then(data => {
                 const enemyCorporationsList = document.getElementById('enemyCorporationsList');
@@ -68,7 +68,7 @@
 
     // Function to fetch activity by days data
     function getActivityByDays() {
-        fetch('http://localhost:3000/activity-by-days')
+        fetch('/activity-by-days')
             .then(response => response.json())
             .then(data => {
                 // Set the retrieved data to the 'data' variable for the heat map
