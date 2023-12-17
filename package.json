@@ -2,10 +2,9 @@
   "name": "eve_data",
   "version": "1.0.0",
   "description": "",
-  "start": "npm run build:digitalocean",
+  "start": "node app.js",
   "main": "app.js",
   "scripts": {
-   "build:digitalocean": "npm install --production=false && npm run build && npm ci",
   },
   "keywords": [],
   "author": "",
