@@ -9,14 +9,26 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            /* Add other body styles as needed */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #151925;
+            color: white;
         }
 
         /* Set the background color for the specified divs with 50% opacity */
         #topEnemyCorporations, #shipTypeCounts {
             background-color: rgba(21, 25, 37, 0.5); /* Adjust the color values as needed */
-            padding: 20px; /* Add padding for better visibility */
+            margin: 20px;
+            padding: 20px;
         }
+                #heatmap {
+            margin: 20px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5); /* 50% opacity black */
+            border-radius: 10px;
 
         /* CSS styles for the heat map */
         /* Add your styles here */
