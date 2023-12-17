@@ -71,7 +71,7 @@ app.get('/activity-by-days', (req, res) => {
 });
 
 // Set the server to listen on port 3000
-const PORT = process.env.PORT || 7085;
+const PORT = process.env.PORT || ;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
