@@ -2,10 +2,10 @@
   "name": "eve_data",
   "version": "1.0.0",
   "description": "",
-  "start": "node app.js",
+  "start": "npm run build:digitalocean",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+   "build:digitalocean": "npm install --production=false && npm run build && npm ci",
   },
   "keywords": [],
   "author": "",
