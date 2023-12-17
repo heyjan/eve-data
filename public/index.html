@@ -46,7 +46,6 @@
 
 <body>
 <div id="navbarContainer" style="overflow: hidden;position: fixed;top: 0;width: 100%"></div>
-<h4>J-Space Statistics</h4>
 
 <div id="box1">
 <div id="shipTypeCounts"></div>
@@ -89,7 +88,7 @@
             .then(response => response.json())
             .then(data => {
                 const shipTypeCounts = document.getElementById('shipTypeCounts');
-                shipTypeCounts.innerHTML = '<h6>Ship Kill Counts</h6>';
+                shipTypeCounts.innerHTML = '<h6>Kills in J-Space stored in the Database</h6>';
 
                 data.forEach(ship => {
                     const shipDiv = document.createElement('div');
